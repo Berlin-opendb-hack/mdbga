@@ -64,7 +64,8 @@ Payload example:
    "amount": "Deleniti esse repellat sunt delectus.",
    "date": "Deserunt possimus qui excepturi ducimus.",
    "exchangeRate": "Animi ut velit.",
-   "identifier": "Vel cumque in sint dignissimos ut."
+   "fee": "Vel cumque in sint dignissimos ut.",
+   "identifier": "Aut ad quas consequatur optio laboriosam."
 }`,
 		RunE: func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}

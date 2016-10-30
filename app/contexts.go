@@ -36,14 +36,20 @@ func NewGetBlockchainTransfersBlockchainContext(ctx context.Context, service *go
 }
 
 // OK sends a HTTP response with status code 200.
-func (ctx *GetBlockchainTransfersBlockchainContext) OK(r *OpendbHackTransfer) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.opendb.hack.transfer+json")
+func (ctx *GetBlockchainTransfersBlockchainContext) OK(r OpendbHackTransferCollection) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.opendb.hack.transfer+json; type=collection")
+	if r == nil {
+		r = OpendbHackTransferCollection{}
+	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
 // OKFull sends a HTTP response with status code 200.
-func (ctx *GetBlockchainTransfersBlockchainContext) OKFull(r *OpendbHackTransferFull) error {
-	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.opendb.hack.transfer+json")
+func (ctx *GetBlockchainTransfersBlockchainContext) OKFull(r OpendbHackTransferFullCollection) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.opendb.hack.transfer+json; type=collection")
+	if r == nil {
+		r = OpendbHackTransferFullCollection{}
+	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }
 
@@ -51,6 +57,12 @@ func (ctx *GetBlockchainTransfersBlockchainContext) OKFull(r *OpendbHackTransfer
 func (ctx *GetBlockchainTransfersBlockchainContext) Unauthorized() error {
 	ctx.ResponseData.WriteHeader(401)
 	return nil
+}
+
+// InternalServerError sends a HTTP response with status code 500.
+func (ctx *GetBlockchainTransfersBlockchainContext) InternalServerError(r error) error {
+	ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.error")
+	return ctx.ResponseData.Service.Send(ctx.Context, 500, r)
 }
 
 // PostBlockchainTransferBlockchainContext provides the blockchain PostBlockchainTransfer action context.
@@ -82,6 +94,8 @@ type postBlockchainTransferBlockchainPayload struct {
 	Date *string `form:"date,omitempty" json:"date,omitempty" xml:"date,omitempty"`
 	// Exchange rate
 	ExchangeRate *string `form:"exchangeRate,omitempty" json:"exchangeRate,omitempty" xml:"exchangeRate,omitempty"`
+	// Paid fee for transfer
+	Fee *string `form:"fee,omitempty" json:"fee,omitempty" xml:"fee,omitempty"`
 	// Payment reference
 	Identifier *string `form:"identifier,omitempty" json:"identifier,omitempty" xml:"identifier,omitempty"`
 }
@@ -119,6 +133,9 @@ func (payload *postBlockchainTransferBlockchainPayload) Publicize() *PostBlockch
 	if payload.ExchangeRate != nil {
 		pub.ExchangeRate = *payload.ExchangeRate
 	}
+	if payload.Fee != nil {
+		pub.Fee = payload.Fee
+	}
 	if payload.Identifier != nil {
 		pub.Identifier = *payload.Identifier
 	}
@@ -135,6 +152,8 @@ type PostBlockchainTransferBlockchainPayload struct {
 	Date *string `form:"date,omitempty" json:"date,omitempty" xml:"date,omitempty"`
 	// Exchange rate
 	ExchangeRate string `form:"exchangeRate" json:"exchangeRate" xml:"exchangeRate"`
+	// Paid fee for transfer
+	Fee *string `form:"fee,omitempty" json:"fee,omitempty" xml:"fee,omitempty"`
 	// Payment reference
 	Identifier string `form:"identifier" json:"identifier" xml:"identifier"`
 }

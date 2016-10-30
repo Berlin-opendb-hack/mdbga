@@ -4,7 +4,6 @@ import (
 	"net/url"
 	"net/http"
 	"fmt"
-	"github.com/shopspring/decimal"
 	"github.com/pkg/errors"
 	"io/ioutil"
 	"encoding/json"

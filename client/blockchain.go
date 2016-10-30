@@ -49,6 +49,8 @@ type PostBlockchainTransferBlockchainPayload struct {
 	Date *string `form:"date,omitempty" json:"date,omitempty" xml:"date,omitempty"`
 	// Exchange rate
 	ExchangeRate string `form:"exchangeRate" json:"exchangeRate" xml:"exchangeRate"`
+	// Paid fee for transfer
+	Fee *string `form:"fee,omitempty" json:"fee,omitempty" xml:"fee,omitempty"`
 	// Payment reference
 	Identifier string `form:"identifier" json:"identifier" xml:"identifier"`
 }

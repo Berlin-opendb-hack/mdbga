@@ -39,8 +39,11 @@ var _ = Resource("blockchain", func() {
 	Action("GetBlockchainTransfers", func() {
 		Routing(GET("/"))
 		Response(Unauthorized, func() {})
+		Response(InternalServerError, func() {
+			Media(ErrorMedia)
+		})
 		Response(OK, func() {
-			Media(TransferMedia)
+			Media(CollectionOf(TransferMedia))
 		})
 	})
 })
@@ -52,6 +55,7 @@ var TransferMedia = MediaType("application/vnd.opendb.hack.transfer+json", func(
 		Attribute("identifier", String, "Payment reference")
 		Attribute("exchangeRate", String, "Exchange rate")
 		Attribute("date", String, "Date in RFC3339 format")
+		Attribute("fee", String, "Paid fee for transfer")
 	})
 	Required(
 		"amount",

@@ -29,12 +29,31 @@ func NewBlockchainController(service *goa.Service) *BlockchainController {
 
 // GetBlockchainTransfers runs the GetBlockchainTransfers action.
 func (c *BlockchainController) GetBlockchainTransfers(ctx *app.GetBlockchainTransfersBlockchainContext) error {
-	// BlockchainController_GetBlockchainTransfers: start_implement
+	rpcClient := jsonrpc.NewClient(blockchain.NewReadWriteCloser())
+	blockChn, err := blockchain.NewBlockChainClient(url.URL{
+		Host: os.Getenv(blockchainHost),
+		Scheme: os.Getenv(blockchainScheme),
+		Path: os.Getenv(blockchainPath),
+	}, rpcClient)
+	if nil != err {
+		return ctx.InternalServerError(err)
+	}
+	transactions, err := blockChn.ListTransactions()
+	if nil != err {
+		return ctx.InternalServerError(err)
+	}
+	res := app.OpendbHackTransferCollection{}
+	for _, transaction := range transactions {
+		dateString := transaction.Date.Format(time.RFC3339)
+		trnsfer := app.OpendbHackTransfer {
+			Date: &dateString,
+			Amount: transaction.Amount.StringFixed(2),
+			ExchangeRate: transaction.ExchangeRate.String(),
+			Identifier: "",
 
-	// Put your logic here
-
-	// BlockchainController_GetBlockchainTransfers: end_implement
-	res := &app.OpendbHackTransfer{}
+		}
+		res = append(res, &trnsfer)
+	}
 	return ctx.OK(res)
 }
 
@@ -64,14 +83,14 @@ func (c *BlockchainController) PostBlockchainTransfer(ctx *app.PostBlockchainTra
 
 	account := accounts[0]
 	balance := decimal.NewFromFloat(account.Balance)
-	if -1 balance.Cmp(amount) {
+	if -1 == balance.Cmp(amount) {
 		return ctx.BadRequest(errors.New("Amount not available in account"))
 	}
 	if nil != err {
 		return ctx.InternalServerError(err)
 	}
 	transfer := bank.Transfer{
-		Amount: amount,
+		Amount: amount.StringFixed(2),
 		CreditorIBAN: os.Getenv(masterAccountIban),
 		CreditorBIC: os.Getenv(masterAccountIban),
 		CreditorName: os.Getenv(masterAccountHolder),

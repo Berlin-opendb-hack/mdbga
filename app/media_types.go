@@ -76,3 +76,50 @@ func (mt *OpendbHackTransferFull) Validate() (err error) {
 
 	return
 }
+
+// OpendbHackTransferCollection is the media type for an array of OpendbHackTransfer (default view)
+//
+// Identifier: application/vnd.opendb.hack.transfer+json; type=collection; view=default
+type OpendbHackTransferCollection []*OpendbHackTransfer
+
+// Validate validates the OpendbHackTransferCollection media type instance.
+func (mt OpendbHackTransferCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e.Amount == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "amount"))
+		}
+		if e.Identifier == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "identifier"))
+		}
+		if e.ExchangeRate == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "exchangeRate"))
+		}
+
+	}
+	return
+}
+
+// OpendbHackTransferCollection is the media type for an array of OpendbHackTransfer (full view)
+//
+// Identifier: application/vnd.opendb.hack.transfer+json; type=collection; view=full
+type OpendbHackTransferFullCollection []*OpendbHackTransferFull
+
+// Validate validates the OpendbHackTransferFullCollection media type instance.
+func (mt OpendbHackTransferFullCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e.Amount == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "amount"))
+		}
+		if e.Address == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "address"))
+		}
+		if e.Identifier == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "identifier"))
+		}
+		if e.ExchangeRate == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "exchangeRate"))
+		}
+
+	}
+	return
+}

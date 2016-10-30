@@ -1,17 +1,18 @@
 package blockchain
 
-import (
-	"io"
-	"encoding/json"
-)
-
 type ResponseHandler struct {
-	json.Decoder
-	json.Encoder
-	io.Closer
-
 }
 
-func NewReadWriteCloser() ResponseHandler {
-	return ResponseHandler{}
+func NewReadWriteCloser() *ResponseHandler {
+	return &ResponseHandler{}
+}
+
+func (h *ResponseHandler) Read(p []byte) (int, error) {
+	return 0, nil
+}
+func (h *ResponseHandler) Write(p []byte) (int, error) {
+	return 0, nil
+}
+func (h *ResponseHandler) Close() error {
+	return nil
 }

@@ -100,3 +100,64 @@ func (c *Client) DecodeOpendbHackTransferFull(resp *http.Response) (*OpendbHackT
 	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
 	return &decoded, err
 }
+
+// OpendbHackTransferCollection is the media type for an array of OpendbHackTransfer (default view)
+//
+// Identifier: application/vnd.opendb.hack.transfer+json; type=collection; view=default
+type OpendbHackTransferCollection []*OpendbHackTransfer
+
+// Validate validates the OpendbHackTransferCollection media type instance.
+func (mt OpendbHackTransferCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e.Amount == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "amount"))
+		}
+		if e.Identifier == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "identifier"))
+		}
+		if e.ExchangeRate == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "exchangeRate"))
+		}
+
+	}
+	return
+}
+
+// OpendbHackTransferCollection is the media type for an array of OpendbHackTransfer (full view)
+//
+// Identifier: application/vnd.opendb.hack.transfer+json; type=collection; view=full
+type OpendbHackTransferFullCollection []*OpendbHackTransferFull
+
+// Validate validates the OpendbHackTransferFullCollection media type instance.
+func (mt OpendbHackTransferFullCollection) Validate() (err error) {
+	for _, e := range mt {
+		if e.Amount == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "amount"))
+		}
+		if e.Address == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "address"))
+		}
+		if e.Identifier == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "identifier"))
+		}
+		if e.ExchangeRate == "" {
+			err = goa.MergeErrors(err, goa.MissingAttributeError(`response[*]`, "exchangeRate"))
+		}
+
+	}
+	return
+}
+
+// DecodeOpendbHackTransferCollection decodes the OpendbHackTransferCollection instance encoded in resp body.
+func (c *Client) DecodeOpendbHackTransferCollection(resp *http.Response) (OpendbHackTransferCollection, error) {
+	var decoded OpendbHackTransferCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
+
+// DecodeOpendbHackTransferFullCollection decodes the OpendbHackTransferFullCollection instance encoded in resp body.
+func (c *Client) DecodeOpendbHackTransferFullCollection(resp *http.Response) (OpendbHackTransferFullCollection, error) {
+	var decoded OpendbHackTransferFullCollection
+	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
+	return decoded, err
+}
