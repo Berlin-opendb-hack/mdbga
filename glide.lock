@@ -1,0 +1,47 @@
+hash: a8b7ae09eeb0f32cd38445e2ffc95196b303805cf035028381b17a98d5e5d626
+updated: 2016-10-30T10:17:29.616465827+01:00
+imports:
+- name: ./..
+  version: 9439b0ef863977dca3f4f776e4e49a340a86c5ed
+- name: github.com/armon/go-metrics
+  version: 3df31a1ada83e310c2e24b267c8e8b68836547b4
+- name: github.com/dimfeld/httppath
+  version: c8e499c3ef3c3e272ed8bdcc1ccf39f73c88debc
+- name: github.com/dimfeld/httptreemux
+  version: 5cb0ec25af2dd6a7d3718b5aa05dc48e192473bc
+- name: github.com/goadesign/goa
+  version: 7c10bf6f270e4cd915d4769e2e1063b02ab94967
+  subpackages:
+  - middleware
+  - goatest
+  - client
+  - design
+  - design/apidsl
+  - uuid
+  - dslengine
+- name: github.com/golang/mock
+  version: bd3c8e81be01eef76d4b503f5e687d2d1354d2d9
+  subpackages:
+  - gomock
+- name: github.com/inconshreveable/mousetrap
+  version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
+- name: github.com/manveru/faker
+  version: 717f7cf83fb78669bfab612749c2e8ff63d5be11
+- name: github.com/pkg/errors
+  version: 248dadf4e9068a0b3e79f02ed0a610d935de5302
+- name: github.com/satori/go.uuid
+  version: b061729afc07e77a8aa4fad0a2fd840958f1942a
+- name: github.com/shopspring/decimal
+  version: d6f52241f332c63811249bd79a522406bea1a7c9
+- name: github.com/spf13/cobra
+  version: 6e91dded25d73176bf7f60b40dd7aa1f0bf9be8d
+- name: github.com/spf13/pflag
+  version: 5ccb023bc27df288a957c5e994cd44fd19619465
+- name: github.com/zach-klippenstein/goregen
+  version: 795b5e3961ea1912fde60af417ad85e86acc0d6a
+- name: golang.org/x/net
+  version: 76c1a11e06a6d0fcd17b3830b8e1b87a2ade4a9c
+  subpackages:
+  - context
+  - websocket
+devImports: []

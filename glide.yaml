@@ -1,0 +1,3 @@
+package: github.com/Berlin-opendb-hack/mdbga
+import:
+- package: ./..
