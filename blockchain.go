@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"github.com/shopspring/decimal"
 	"github.com/pkg/errors"
+	"time"
 )
 
 // BlockchainController implements the blockchain resource.
@@ -42,9 +43,9 @@ func (c *BlockchainController) PostBlockchainTransfer(ctx *app.PostBlockchainTra
 		return ctx.Unauthorized()
 	}
 	bankEndpoint := url.URL{
-		Scheme: os.Getenv("BANK_SCHEME"),
-		Host: os.Getenv("BANK_HOST"),
-		Path: os.Getenv("BANK_PATH"),
+		Scheme: os.Getenv(bankScheme),
+		Host: os.Getenv(bankHost),
+		Path: os.Getenv(bankPath),
 	}
 	client := &http.Client{}
 	bankClient := bank.NewBankClient(client, bankEndpoint)
@@ -68,7 +69,24 @@ func (c *BlockchainController) PostBlockchainTransfer(ctx *app.PostBlockchainTra
 	}
 	transfer := bank.Transfer{
 		Amount: amount,
-
+		CreditorIBAN: os.Getenv(masterAccountIban),
+		CreditorBIC: os.Getenv(masterAccountIban),
+		CreditorName: os.Getenv(masterAccountHolder),
+		DebtorIBAN: account.Iban,
+		DebtorBIC: os.Getenv(defalultBic),
+		DebtorName: "Kunde",
+		Currency: "EUR",
+		RemittanceInformation: payload.Address,
+	}
+	transferDate := time.Now()
+	if nil != payload.Date {
+		transferDate, err = time.Parse(time.RFC3339, *payload.Date)
+		if nil != err {
+			return ctx.InternalServerError(err)
+		}
+		if transferDate.Before(time.Now()) {
+			transferDate = time.Now()
+		}
 	}
 	resId, err := bankClient.CreateTransfer(token.(string), transfer)
 	if nil != err {

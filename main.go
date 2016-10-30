@@ -3,12 +3,26 @@
 package main
 
 import (
-	"github.com/Berlin-opendb-hack/mdbga/app"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware"
+	"github.com/Berlin-opendb-hack/mdbga/app"
 	"golang.org/x/net/context"
 	"net/http"
 )
+
+const (
+	bankScheme = "BANK_SCHEME"
+	bankHost = "BANK_HOST"
+	bankPath = "BANK_PATH"
+	masterAccountIban = "MASTER_ACCOUNT_IBAN"
+	masterAccountBic = "MASTER_ACCOUNT_BIC"
+	masterAccountHolder = "MASTER_ACCOUNT_HOLDER"
+	defalultBic = "DEFALULT_BIC"
+	blockchainScheme = "BLOCKCHAIN_SCHEME"
+	blockchainHost = "BLOCKCHAIN_HOST"
+	blockchainPath = "BLOCKCHAIN_PATH"
+)
+
 
 func main() {
 	// Create service
