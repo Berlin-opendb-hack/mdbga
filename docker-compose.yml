@@ -1,0 +1,16 @@
+version: '2'
+services:
+  mdbga:
+    build: .
+    ports:
+     - "8881:8881"
+    environment:
+      BANK_SCHEME: "http"
+      BANK_HOST: "localhost"
+      BANK_PATH: ""
+      MASTER_ACCOUNT_IBAN: "DE000000000000001"
+      MASTER_ACCOUNT_BIC: "DEUTDEDWXXX"
+      DEFALULT_BIC: "DEUTDEDWXXX"
+      ENV BLOCKCHAIN_SCHEME: 'http'
+      ENV BLOCKCHAIN_HOST: 'rpc:rpc@10.225.1.67:18332'
+      ENV BLOCKCHAIN_PATH: '/'
