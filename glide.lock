@@ -1,10 +1,12 @@
-hash: a8b7ae09eeb0f32cd38445e2ffc95196b303805cf035028381b17a98d5e5d626
-updated: 2016-10-30T10:17:29.616465827+01:00
+hash: 5408c1e6bdf64e64f282b3f91388025aee8e6c0c470ca5ebe19e29114ed632a7
+updated: 2016-10-30T12:06:17.48579017+01:00
 imports:
-- name: ./..
-  version: 9439b0ef863977dca3f4f776e4e49a340a86c5ed
 - name: github.com/armon/go-metrics
   version: 3df31a1ada83e310c2e24b267c8e8b68836547b4
+- name: github.com/Berlin-opendb-hack/opendb-mock
+  version: a53c18b52644a4f708cf64b6b866e98a7901b769
+  subpackages:
+  - pkg/accounting
 - name: github.com/dimfeld/httppath
   version: c8e499c3ef3c3e272ed8bdcc1ccf39f73c88debc
 - name: github.com/dimfeld/httptreemux

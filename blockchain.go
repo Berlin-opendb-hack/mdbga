@@ -10,6 +10,9 @@ import (
 	"github.com/shopspring/decimal"
 	"github.com/pkg/errors"
 	"time"
+	"github.com/Berlin-opendb-hack/mdbga/pkg/blockchain"
+	"net/rpc/jsonrpc"
+	"github.com/Berlin-opendb-hack/opendb-mock/pkg/accounting"
 )
 
 // BlockchainController implements the blockchain resource.
@@ -92,6 +95,19 @@ func (c *BlockchainController) PostBlockchainTransfer(ctx *app.PostBlockchainTra
 	if nil != err {
 		return ctx.InternalServerError(err)
 	}
-	ctx.Response.Header.Add("ResourceId", "asdf")
+	rpcClient := jsonrpc.NewClient(blockchain.NewReadWriteCloser())
+	blockChn, err := blockchain.NewBlockChainClient(url.URL{
+		Host: os.Getenv(blockchainHost),
+		Scheme: os.Getenv(blockchainScheme),
+		Path: os.Getenv(blockchainPath),
+	}, rpcClient)
+	if nil != err {
+		return ctx.InternalServerError(err)
+	}
+	blockChn.SendToAddress(payload.Address,amount)
+	ledger := accounting.GetLedger()
+	ledger.Book(transfer.CreditorIBAN, transfer.DebtorIBAN, amount.StringFixed(2), "EUR", transfer.RemittanceInformation, time.Now().Format("2016-01-02"))
+	ctx.Response.Header.Add("ResourceId", resId)
+
 	return ctx.Created()
 }

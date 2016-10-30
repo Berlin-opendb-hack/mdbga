@@ -1,3 +1,5 @@
 package: github.com/Berlin-opendb-hack/mdbga
 import:
-- package: ./..
+- package: github.com/Berlin-opendb-hack/opendb-mock
+  subpackages:
+  - pkg/accounting

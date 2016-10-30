@@ -3,8 +3,8 @@ package blockchain
 import "net/url"
 import (
 	"net/http"
-	"net/rpc"
 	"github.com/shopspring/decimal"
+	"net/rpc"
 )
 
 type Transaction struct {
@@ -26,10 +26,10 @@ func NewBlockChainClient(endpoint url.URL, rpcClient rpc.Client) (*BlockChainCli
 	}
 }
 
-func (cl *BlockChainClient) sendToAddress(address string, amount decimal.Decimal)  {
+func (cl *BlockChainClient) SendToAddress(address string, amount decimal.Decimal)  {
 	cl.rpcClient.Call("sendtoaddress", []string{address, amount.StringFixed(2)})
 }
-func (cl *BlockChainClient) listTransactions()  {
+func (cl *BlockChainClient) ListTransactions()  {
 	transactions := []Transaction{}
 	cl.rpcClient.Call("listtransactions", nil, transactions)
 }
